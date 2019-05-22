@@ -109,7 +109,8 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_Right,  tagtoright,     {0} }, // patch: focusadjacenttag
 	{ MODKEY|ShiftMask,             XK_Up,     pushup,         {0} }, // patch: push
 	{ MODKEY|ShiftMask,             XK_Down,   pushdown,       {0} }, // patch: push
-	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} }, // quit dwm cleanly or kill -HUP dwmpid
+	{ MODKEY|ShiftMask,             XK_r,      quit,           {1} }, // patch: restartsig, restart dwm or kill -TERM dwmpid
 };
 
 /* button definitions */
