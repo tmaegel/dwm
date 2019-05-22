@@ -55,8 +55,8 @@ static const Layout layouts[] = {
 #define ALTKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,      toggleview,     {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
@@ -64,7 +64,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] 		= { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+static const char *dmenucmd[] 		= { "dmenu_run", "-m", dmenumon, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *firefox[]  = { "firefox", NULL };
 
@@ -74,26 +74,26 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = firefox } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_Down,   focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_Up,     focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_plus,   incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_minus,  incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
+	{ MODKEY,                       XK_Down,   focusstack,     {.i = +1 } },            // focus next window
+	{ MODKEY,                       XK_Up,     focusstack,     {.i = -1 } },            // focus previous window
+	{ MODKEY,                       XK_plus,   incnmaster,     {.i = +1 } },            // increase number of windows in master stack
+	{ MODKEY,                       XK_minus,  incnmaster,     {.i = -1 } },            // decrease number of windows in master stack
+	{ MODKEY,                       XK_Left,   setmfact,       {.f = -0.05} },          // increase width
+	{ MODKEY,                       XK_Right,  setmfact,       {.f = +0.05} },          // decrease width
+	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} },                   // switch master to slave and back
+	{ MODKEY,                       XK_Tab,    view,           {0} },                   // switch previous tag and back
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	{ MODKEY,                       XK_space,  setlayout,      {0} },                   // switch previous layout and back
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
-    { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-    { ALTKEY,                       XK_Left,   focusmon,       {.i = -1 } },
-	{ ALTKEY,                       XK_Right,  focusmon,       {.i = +1 } },
-	{ ALTKEY|ShiftMask,             XK_Left,   tagmon,         {.i = -1 } },
-	{ ALTKEY|ShiftMask,             XK_Right,  tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },           // show all windows
+    { MODKEY|ControlMask|ShiftMask, XK_0,      tag,            {.ui = ~0 } },           // show focused window on all tags
+    { ALTKEY,                       XK_Left,   focusmon,       {.i = -1 } },            // focus previous monitor
+	{ ALTKEY,                       XK_Right,  focusmon,       {.i = +1 } },            // focus next monitor
+	{ ALTKEY|ShiftMask,             XK_Left,   tagmon,         {.i = -1 } },            // move focused window to previous monitor
+	{ ALTKEY|ShiftMask,             XK_Right,  tagmon,         {.i = +1 } },            // move focused window to next monitor
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -103,14 +103,14 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)	
-	{ ALTKEY|ControlMask,           XK_Left,   viewtoleft,     {0} }, // patch: focusadjacenttag
-	{ ALTKEY|ControlMask,           XK_Right,  viewtoright,    {0} }, // patch: focusadjacenttag
-	{ MODKEY|ControlMask,           XK_Left,   tagtoleft,      {0} }, // patch: focusadjacenttag
-	{ MODKEY|ControlMask,           XK_Right,  tagtoright,     {0} }, // patch: focusadjacenttag
-	{ MODKEY|ShiftMask,             XK_Up,     pushup,         {0} }, // patch: push
-	{ MODKEY|ShiftMask,             XK_Down,   pushdown,       {0} }, // patch: push
-	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} }, // quit dwm cleanly or kill -HUP dwmpid
-	{ MODKEY|ShiftMask,             XK_r,      quit,           {1} }, // patch: restartsig, restart dwm or kill -TERM dwmpid
+	{ ALTKEY|ControlMask,           XK_Left,   viewtoleft,     {0} },                   // patch: focusadjacenttag, focus tag to the left
+	{ ALTKEY|ControlMask,           XK_Right,  viewtoright,    {0} },                   // patch: focusadjacenttag, focus tag to the right
+	{ MODKEY|ControlMask,           XK_Left,   tagtoleft,      {0} },                   // patch: focusadjacenttag, move focused window to tag to the left
+	{ MODKEY|ControlMask,           XK_Right,  tagtoright,     {0} },                   // patch: focusadjacenttag, move focused window to tag to the right
+	{ MODKEY|ControlMask,           XK_Up,     pushup,         {0} },                   // patch: push, move window in slave area up
+	{ MODKEY|ControlMask,           XK_Down,   pushdown,       {0} },                   // patch: push, move window in slave area down
+	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },                   // quit dwm cleanly or kill -HUP dwmpid
+	{ MODKEY|ShiftMask,             XK_r,      quit,           {1} },                   // patch: restartsig, restart dwm or kill -TERM dwmpid
 };
 
 /* button definitions */
