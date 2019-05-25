@@ -1,17 +1,17 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int borderpx  = 4;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Tamsyn:size=10" };
 static const char dmenufont[]       = "Tamsyn:size=10";
-static const char normbordercolor[] = "#262626";
-static const char normbgcolor[]     = "#262626";
-static const char normfgcolor[]     = "#aaaaaa";
-static const char selbordercolor[]  = "#7b7e85";
-static const char selbgcolor[]      = "#262626";
+static const char normbordercolor[] = "#333333";
+static const char normbgcolor[]     = "#0d131a";
+static const char normfgcolor[]     = "#8b9499";
+static const char selbordercolor[]  = "#666666";
+static const char selbgcolor[]      = "#0d131a";
 static const char selfgcolor[]      = "#FFFFFF";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -20,7 +20,7 @@ static const char *colors[][3]      = {
 };
 
 /* patch: tilegap */
-static const unsigned int gappx     = 10;       /* gap pixel between windows */
+static const unsigned int gappx     = 20;       /* gap pixel between windows */
 /* patch: bargapp */
 static const unsigned int bargapp   = 16;       /* padding bar */
 
