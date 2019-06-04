@@ -65,6 +65,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] 		= { "dmenu_run", "-m", dmenumon, NULL };
+static const char *lockcmd[] 		= { "slimlock", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *firefox[]  = { "firefox", NULL };
 
@@ -73,6 +74,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = firefox } },
+	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_Down,   focusstack,     {.i = +1 } },            // focus next window
 	{ MODKEY,                       XK_Up,     focusstack,     {.i = -1 } },            // focus previous window
