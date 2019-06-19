@@ -1,16 +1,16 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 4;        /* border pixel of windows */
+static const unsigned int borderpx  = 5;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Tamsyn:size=10" };
 static const char dmenufont[]       = "Tamsyn:size=10";
 static const char normbordercolor[] = "#333333";
 static const char normbgcolor[]     = "#0d131a";
 static const char normfgcolor[]     = "#8b9499";
-static const char selbordercolor[]  = "#666666";
+static const char selbordercolor[]  = "#4b555e";
 static const char selbgcolor[]      = "#0d131a";
 static const char selfgcolor[]      = "#FFFFFF";
 static const char *colors[][3]      = {
@@ -25,7 +25,7 @@ static const unsigned int gappx     = 20;       /* gap pixel between windows */
 static const unsigned int bargapp   = 16;       /* padding bar */
 
 /* tagging */
-static const char *tags[] = { "term", "www", "code", "file", "text", "chat", "img", "music", "misc" };
+static const char *tags[] = { "www", "term", "code", "file", "music", "mail", "misc" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -33,9 +33,12 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     iscentered     isfloating   monitor */
-	{ "Firefox",   NULL,       NULL,      1 << 1,       0,             0,           -1 },
+	{ "Firefox",   NULL,       NULL,      1 << 0,       0,             0,           -1 },
+	{ "Gimp"      ,NULL,       NULL,      0,            0,  	       0,  	        -1 },
 	{ "Galculator",NULL,       NULL,      0,            1,  	       1,  	        -1 },
 	{ "Gpicview",  NULL,       NULL,      0,            1,  	       1,  	        -1 },
+	{ "feh",       NULL,       NULL,      0,            1,  	       1,  	        -1 },
+	{ "Surf",      NULL,       NULL,      1 << 6,       0,             0,           -1 },
 };
 
 /* layout(s) */
@@ -64,16 +67,28 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] 		= { "dmenu_run", "-m", dmenumon, NULL };
-static const char *lockcmd[] 		= { "slimlock", NULL };
-static const char *termcmd[]  = { "st", NULL };
-static const char *firefox[]  = { "firefox", NULL };
+static const char *dmenucmd[]       = { "dmenu_run", "-m", dmenumon, NULL };
+static const char *lockcmd[]        = { "slock", NULL };
+static const char *termcmd[]        = { "st", NULL };
+static const char *firefox[]        = { "firefox", NULL };
+static const char *filemanagercmd[] = { "thunar", NULL };
+static const char *lightdown[]      = { "/usr/local/bin/changebrightness", "dec", NULL };
+static const char *lightup[]        = { "/usr/local/bin/changebrightness", "inc", NULL };
+static const char *volumedown[]     = { "/usr/local/bin/changevolume", "dec", NULL };
+static const char *volumeup[]       = { "/usr/local/bin/changevolume", "inc", NULL };
+static const char *volumetoggle[]   = { "/usr/local/bin/changevolume", "toggle", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY,                       XK_F1,     spawn,          {.v = volumetoggle } },
+	{ MODKEY,                       XK_F2,     spawn,          {.v = volumedown } },
+	{ MODKEY,                       XK_F3,     spawn,          {.v = volumeup } },
+	{ MODKEY,                       XK_F5,     spawn,          {.v = lightdown } },
+	{ MODKEY,                       XK_F6,     spawn,          {.v = lightup } },
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = firefox } },
+	{ MODKEY,                       XK_n,      spawn,          {.v = filemanagercmd } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_Down,   focusstack,     {.i = +1 } },            // focus next window
