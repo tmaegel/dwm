@@ -29,6 +29,7 @@ static const unsigned int bargapp   = 16;       /* padding bar */
 
 /* tagging */
 static const char *tags[] = { "\uE0BF", "\uE1EC", "\uE276", "\uE1D9", "\uE04D", "\uE0AD", "\uE073", "\uE0FF" };
+static const char *tagsalt[] = { "\uE17E", "\uE17F", "\uE180", "\uE181", "\uE182", "\uE183", "\uE184", "\uE185" }; /* 1, 2, 3, 4, 5, 6, 7, 8*/
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -98,6 +99,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_n,      spawn,          {.v = filemanagercmd } },
 	{ MODKEY,                       XK_c,      spawn,          {.v = calculatorcmd } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
+	{ MODKEY|ShiftMask,             XK_n,      togglealttag,   {0} },                   // patch: alternativetags
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_b,      toggleextrabar, {0} },                   // patch: dualstatus
 	{ MODKEY,                       XK_Down,   focusstack,     {.i = +1 } },            // focus next window
